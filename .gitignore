@@ -1,0 +1,6 @@
+.env
+.env.*
+!.env.example
+.reviewlens/
+node_modules/
+.DS_Store

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17152a">
+  <title>ReviewLens | Review intelligence</title>
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to dashboard</a>
+  <aside class="sidebar">
+    <a class="brand" href="#main">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="10.5" cy="10.5" r="5.5"/><path d="m15 15 4 4M8 10.5h5M10.5 8v5"/></svg></span>
+      ReviewLens
+    </a>
+    <nav aria-label="Dashboard">
+      <a class="nav-current" href="#main"><span aria-hidden="true">◫</span> Overview</a>
+      <a href="#reviews"><span aria-hidden="true">☷</span> Reviews</a>
+    </nav>
+    <div class="sidebar-foot"><span aria-hidden="true"></span> Review intelligence</div>
+  </aside>
+
+  <main id="main" tabindex="-1">
+    <header class="page-header">
+      <div><p class="eyebrow">Overview</p><h1>Review dashboard</h1></div>
+      <a class="quiet-button" href="/reviews.csv" download>Download sample CSV</a>
+    </header>
+
+    <section class="upload-panel" aria-labelledby="upload-title">
+      <span class="upload-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 16V5m-4 4 4-4 4 4M5 15v4h14v-4"/></svg></span>
+      <div class="upload-copy">
+        <h2 id="upload-title">Analyse customer reviews</h2>
+        <p id="upload-help">Upload a UTF-8 CSV with up to 250 reviews. Your file can be up to 512 KB.</p>
+      </div>
+      <form id="upload-form" class="upload-actions">
+        <input type="file" id="file" class="visually-hidden" accept=".csv,text/csv" aria-describedby="upload-help">
+        <label for="file" class="primary-button" id="choose-label">Upload CSV</label>
+        <button type="button" class="secondary-button" id="use-sample">Analyse sample</button>
+      </form>
+    </section>
+    <p class="run-status" id="status" role="status" aria-live="polite">Choose a file or analyse the 30-review assessment sample.</p>
+
+    <section aria-labelledby="summary-title">
+      <div class="section-heading"><h2 id="summary-title">Review summary</h2><span id="dataset-name">No dataset loaded</span></div>
+      <div class="metrics">
+        <article class="metric"><p>Analysed</p><strong id="total">—</strong><small id="total-detail">Reviews processed</small></article>
+        <article class="metric metric-positive"><p>Positive</p><strong id="positive">—</strong><small id="positive-detail">Of analysed reviews</small></article>
+        <article class="metric metric-neutral"><p>Neutral</p><strong id="neutral">—</strong><small id="neutral-detail">Of analysed reviews</small></article>
+        <article class="metric metric-negative"><p>Negative</p><strong id="negative">—</strong><small id="negative-detail">Of analysed reviews</small></article>
+        <article class="metric metric-reply"><p>Needs reply</p><strong id="reply-count">—</strong><small>Reviews to respond to</small></article>
+      </div>
+      <details class="run-details" id="run-details" hidden>
+        <summary id="run-summary">Processing details</summary>
+        <ul id="cleaning-list"></ul>
+      </details>
+    </section>
+
+    <section aria-label="Top review themes" class="themes">
+      <article class="panel theme-panel">
+        <header><span class="theme-icon praise-icon" aria-hidden="true">+</span><div><h2>Top praises</h2><p>Topics in positive reviews</p></div></header>
+        <div id="praises" class="theme-content"><p>Upload reviews to see what customers praise.</p></div>
+      </article>
+      <article class="panel theme-panel">
+        <header><span class="theme-icon complaint-icon" aria-hidden="true">−</span><div><h2>Top complaints</h2><p>Topics in negative reviews</p></div></header>
+        <div id="complaints" class="theme-content"><p>Upload reviews to see where customers had issues.</p></div>
+      </article>
+    </section>
+
+    <section id="reviews" class="panel review-panel" aria-labelledby="reviews-title">
+      <header class="review-header">
+        <div><h2 id="reviews-title">Reviews</h2><p id="review-count" aria-live="polite">No reviews loaded</p></div>
+        <div class="filters">
+          <label>Product<select id="product-filter"><option value="">All products</option></select></label>
+          <label>Sentiment<select id="sentiment-filter"><option value="">All sentiments</option><option value="positive">Positive</option><option value="neutral">Neutral</option><option value="negative">Negative</option><option value="analysis_failed">Analysis failed</option></select></label>
+          <label>Topic<select id="topic-filter"><option value="">All topics</option></select></label>
+        </div>
+      </header>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Review results">
+        <table>
+          <thead><tr><th scope="col">Product</th><th scope="col">Rating</th><th scope="col">Sentiment</th><th scope="col">Review summary</th><th scope="col">Topics</th><th scope="col">Reply</th></tr></thead>
+          <tbody id="review-rows"><tr><td colspan="6" class="empty-table">Upload a CSV to see individual reviews.</td></tr></tbody>
+        </table>
+      </div>
+      <footer class="pagination" id="pagination" hidden>
+        <button class="quiet-button" id="previous">Previous</button><span id="page-label"></span><button class="quiet-button" id="next">Next</button>
+      </footer>
+    </section>
+  </main>
+
+  <dialog id="review-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-header">
+      <div><p class="eyebrow" id="dialog-id"></p><h2 id="dialog-title"></h2></div>
+      <form method="dialog"><button class="quiet-button">Close</button></form>
+    </div>
+    <p class="original" id="original-text"></p>
+    <div id="draft-panel" hidden>
+      <h3>Suggested reply</h3>
+      <p id="draft-text" role="status"></p>
+      <button id="retry-draft" class="secondary-button" hidden>Try again</button>
+    </div>
+  </dialog>
+</body>
+</html>
